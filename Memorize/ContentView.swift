@@ -7,33 +7,58 @@
 
 import SwiftUI
 
-//struct Emoji: Identifiable {
-//    let id = UUID()
-//    let emojiName: String
-//}
-
 struct ContentView: View {
+    let emojis: [String] = ["👻", "🎃", "🕷️", "😈", "👻", "🎃", "🕷️", "😈", "👻", "🎃", "🕷️", "😈"]
+    @State var cardCount = 4
+    
     var body: some View {
-        let emojis: [String] = ["👻", "🎃", "🕷️", "😈"]
-//        let emojis2: [Emoji] = [
-//            Emoji(emojiName: "👻"),
-//            Emoji(emojiName: "🎃"),
-//            Emoji(emojiName: "🕷️"),
-//            Emoji(emojiName: "😈")
-//        ]
-        
+        VStack {
+            cards
+            cardCountAdjusters
+        }
+        .padding()
+    }
+    
+    var cards: some View {
         HStack {
-//            ForEach(0..<4) { index in
-//                CardView(content: emojis[index])
-//            }
-            
-            ForEach(0..<emojis.count, id: \.self) { index in
-                
+            ForEach(0..<cardCount, id: \.self) { index in
                 CardView(content: emojis[index])
             }
         }
         .foregroundStyle(.orange)
-        .padding()
+    }
+    
+    var cardCountAdjusters: some View {
+        HStack {
+            cardRemover
+            Spacer()
+            cardAdder
+        }
+        .font(.largeTitle)
+    }
+    
+    var cardRemover: some View {
+        Button(action: {
+            withAnimation(.bouncy) {
+                if cardCount > 1 {
+                    cardCount -= 1
+                }
+            }
+        }, label: {
+            Image(systemName: "rectangle.stack.badge.minus.fill")
+        })
+    }
+    
+    var cardAdder: some View {
+        Button(action: {
+            withAnimation(.bouncy) {
+                if cardCount < emojis.count {
+                    cardCount += 1
+                }
+            }
+        }, label: {
+            Image(systemName: "rectangle.stack.badge.plus.fill")
+        })
     }
 }
 
