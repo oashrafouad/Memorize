@@ -7,14 +7,30 @@
 
 import SwiftUI
 
+//struct Emoji: Identifiable {
+//    let id = UUID()
+//    let emojiName: String
+//}
+
 struct ContentView: View {
     var body: some View {
+        let emojis: [String] = ["👻", "🎃", "🕷️", "😈"]
+//        let emojis2: [Emoji] = [
+//            Emoji(emojiName: "👻"),
+//            Emoji(emojiName: "🎃"),
+//            Emoji(emojiName: "🕷️"),
+//            Emoji(emojiName: "😈")
+//        ]
+        
         HStack {
-            CardView()
-            CardView()
-            CardView(isFaceUp: true)
-            CardView(isFaceUp: true)
+//            ForEach(0..<4) { index in
+//                CardView(content: emojis[index])
+//            }
             
+            ForEach(0..<emojis.count, id: \.self) { index in
+                
+                CardView(content: emojis[index])
+            }
         }
         .foregroundStyle(.orange)
         .padding()
@@ -22,7 +38,8 @@ struct ContentView: View {
 }
 
 struct CardView: View {
-    @State var isFaceUp = false
+    let content: String
+    @State var isFaceUp: Bool = true
     
     var body: some View {
         let base = RoundedRectangle(cornerRadius: 12)
@@ -33,7 +50,7 @@ struct CardView: View {
                     .fill(.white)
                 base
                     .strokeBorder(lineWidth: 2)
-                Text("👻")
+                Text(content)
                     .font(.largeTitle)
             }
             else {
